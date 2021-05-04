@@ -1,13 +1,13 @@
-package com.khalid.facebbook;
+package com.khalid.fakebook;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class FacebbookApplication {
+public class FakebookApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(FacebbookApplication.class, args);
+		SpringApplication.run(FakebookApplication.class, args);
 	}
 
 }
