@@ -1,15 +1,14 @@
 package com.khalid.fakebook.model;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "posts")
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
-    private Long id;
+    private Long post_id;
     private String post_url;
     private String post_description;
     private Long owner_id;
@@ -18,18 +17,18 @@ public class Post {
     }
 
     public Post(Long id, String post_url, String post_description, Long owner_id) {
-        this.id = id;
+        this.post_id = post_id;
         this.post_url = post_url;
         this.post_description = post_description;
         this.owner_id = owner_id;
     }
 
     public Long getId() {
-        return id;
+        return post_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long post_id) {
+        this.post_id = post_id;
     }
 
     public String getPost_url() {
@@ -59,7 +58,7 @@ public class Post {
     @Override
     public String toString() {
         return "Post{" +
-                "id=" + id +
+                "id=" + post_id +
                 ", post_url='" + post_url + '\'' +
                 ", post_description='" + post_description + '\'' +
                 ", owner_id=" + owner_id +

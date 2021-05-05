@@ -3,11 +3,12 @@ package com.khalid.fakebook.model;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
-    private Long id;
+    private Long user_id;
     private String firstname;
     private String lastname;
     @Column(nullable = false, updatable = false)
@@ -16,8 +17,8 @@ public class User {
 
     public User(){}
 
-    public User(Long id, String firstname, String lastname, String email, String password) {
-        this.id = id;
+    public User(Long user_id, String firstname, String lastname, String email, String password) {
+        this.user_id = user_id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
@@ -25,11 +26,11 @@ public class User {
     }
 
     public Long getId() {
-        return id;
+        return user_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long user_id) {
+        this.user_id = user_id;
     }
 
     public String getFirstname() {
@@ -67,7 +68,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
+                "id=" + user_id +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", email='" + email + '\'' +
