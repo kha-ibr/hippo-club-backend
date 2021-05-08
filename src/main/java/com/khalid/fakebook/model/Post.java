@@ -1,10 +1,9 @@
 package com.khalid.fakebook.model;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "posts")
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,16 +11,18 @@ public class Post {
     private Long id;
     private String post_url;
     private String post_description;
-    private Long owner_id;
+//    @ManyToOne
+//    @JoinColumn(nullable = false, name = "id")
+//    private User user;
 
     public Post() {
     }
 
-    public Post(Long id, String post_url, String post_description, Long owner_id) {
+    public Post(Long id, String post_url, String post_description, User user) {
         this.id = id;
         this.post_url = post_url;
         this.post_description = post_description;
-        this.owner_id = owner_id;
+//        this.user = user;
     }
 
     public Long getId() {
@@ -48,13 +49,13 @@ public class Post {
         this.post_description = post_description;
     }
 
-    public Long getOwner_id() {
-        return owner_id;
-    }
-
-    public void setOwner_id(Long owner_id) {
-        this.owner_id = owner_id;
-    }
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
 
     @Override
     public String toString() {
@@ -62,7 +63,6 @@ public class Post {
                 "id=" + id +
                 ", post_url='" + post_url + '\'' +
                 ", post_description='" + post_description + '\'' +
-                ", owner_id=" + owner_id +
                 '}';
     }
 }

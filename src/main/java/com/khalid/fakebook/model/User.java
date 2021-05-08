@@ -3,9 +3,10 @@ package com.khalid.fakebook.model;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false, updatable = false)
     private Long id;
     private String firstname;
@@ -13,15 +14,19 @@ public class User {
     @Column(nullable = false, updatable = false)
     private String email;
     private String password;
+    private String avatar;
+    private Long sessionId;
 
     public User(){}
 
-    public User(Long id, String firstname, String lastname, String email, String password) {
+    public User(Long id, String firstname, String lastname, String email, String password, String avatar, Long sessionId) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.password = password;
+        this.avatar = avatar;
+        this.sessionId = sessionId;
     }
 
     public Long getId() {
@@ -62,6 +67,22 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public Long getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(Long sessionId) {
+        this.sessionId = sessionId;
     }
 
     @Override
