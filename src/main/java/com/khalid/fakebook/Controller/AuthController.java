@@ -1,5 +1,6 @@
 package com.khalid.fakebook.Controller;
 
+import com.khalid.fakebook.Encryption.EncryptPasswordGenerator;
 import com.khalid.fakebook.Service.AuthServise;
 import com.khalid.fakebook.dto.LoginReq;
 import com.khalid.fakebook.dto.RegisterReq;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.khalid.fakebook.model.User;
+
+import java.util.UUID;
 
 
 @RestController
@@ -49,8 +52,21 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginReq req) {
-        authServise.login(req);
+        User user = new User();
 
-        return new ResponseEntity<>("h", HttpStatus.OK);
+        User email = authServise.findByEmail(req.getEmail());
+        User dbPassword = authServise.findPasswordByEmail(req.getEmail());
+        boolean passwordVerified = EncryptPasswordGenerator.verifyUserPassword(req.getPassword(), dbPassword.getPassword(), dbPassword.getSalt());
+
+        if (email == null)
+            return new ResponseEntity<>("Incorrect email or password", HttpStatus.BAD_REQUEST);
+
+        if (!passwordVerified)
+            return new ResponseEntity<>("Incorrect email or password", HttpStatus.BAD_REQUEST);
+
+        String secret = UUID.randomUUID().toString();
+
+        //TODO: set a session id for authentication
+        return new ResponseEntity<>(secret, HttpStatus.ACCEPTED);
     }
 }
