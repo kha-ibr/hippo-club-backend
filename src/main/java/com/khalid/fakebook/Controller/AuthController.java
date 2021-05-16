@@ -1,6 +1,6 @@
 package com.khalid.fakebook.Controller;
 
-import com.khalid.fakebook.Encryption.EncryptPasswordGenerator;
+import com.khalid.fakebook.PasswordEncryption.EncryptPasswordGenerator;
 import com.khalid.fakebook.Service.AuthServise;
 import com.khalid.fakebook.Service.SessionService;
 import com.khalid.fakebook.dto.LoginReq;
@@ -10,10 +10,7 @@ import com.khalid.fakebook.model.User;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -58,20 +55,37 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody LoginReq req) {
         Map<String, String> errorResponse = new HashMap<String, String>();
+        Map<String, String> userErrorResponse = new HashMap<>();
         Map<String, String> successResponse = new HashMap<String, String>();
 
         User user = authServise.findByEmail(req.getEmail());
-        boolean passwordVerified = EncryptPasswordGenerator.verifyUserPassword(req.getPassword(), user.getPassword(), user.getSalt());
 
-        errorResponse.put("error", "Incorrect email or password");
-        if (user.getEmail() == null && !passwordVerified)
-            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        if (user != null) {
+            boolean passwordVerified = EncryptPasswordGenerator.verifyUserPassword(req.getPassword(), user.getPassword(), user.getSalt());
 
-        String generateSession = UUID.randomUUID().toString();
+            //TODO: Check if the user provide something or not
+            //TODO: Create error handler response class
 
-        Session session = sessionService.saveSession(generateSession, user);
-        successResponse.put("Status", "Success");
-        successResponse.put("session", session.getSession());
-        return new ResponseEntity<>(successResponse, HttpStatus.ACCEPTED);
+            errorResponse.put("error", "Incorrect email or password");
+            if (user.getEmail() == null && !passwordVerified)
+                return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+
+            String generateSession = UUID.randomUUID().toString();
+
+            Session session = sessionService.saveSession(generateSession, user);
+            successResponse.put("Status", "Success");
+            successResponse.put("session", session.getSession());
+
+            return new ResponseEntity<>(successResponse, HttpStatus.ACCEPTED);
+        }
+
+        userErrorResponse.put("error", "There is no user with that " + req.getEmail());
+        return new ResponseEntity<>(userErrorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable("id") Long id) {
+        authServise.deleteUser(id);
+        return new ResponseEntity<>("User deleted successfully " + id, HttpStatus.OK);
     }
 }

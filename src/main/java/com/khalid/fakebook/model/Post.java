@@ -17,11 +17,13 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false, updatable = false)
     private Long post_id;
-    private String post_url;
+    @Column(name = "post_img_url")
+    private String postImgUrl;
     @Lob
-    private String post_description;
+    @Column(name = "post_description")
+    private String postDescription;
     private Instant createdAt;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(nullable = false, name = "users_user_id")
+    @ManyToOne
+    @JoinColumn(nullable = false, name = "users_id")
     private User user;
 }

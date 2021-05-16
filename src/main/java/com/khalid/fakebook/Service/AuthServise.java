@@ -1,6 +1,6 @@
 package com.khalid.fakebook.Service;
 
-import com.khalid.fakebook.Encryption.EncryptPasswordGenerator;
+import com.khalid.fakebook.PasswordEncryption.EncryptPasswordGenerator;
 import com.khalid.fakebook.Repo.UserRepo;
 import com.khalid.fakebook.dto.RegisterReq;
 import com.khalid.fakebook.model.User;
@@ -32,14 +32,6 @@ public class AuthServise {
         user.setCreatedDate(Instant.now());
         userRepo.save(user);
     }
-
-//    public Optional<Object> findUserByName(String firstName, String lastName) {
-//        return userRepo.findUserByName(firstName, lastName);
-//    }
-
-//    public User findUserById(Long id) {
-//        return userRepo.findById(id).orElseThrow(()-> new UserNotFoundException("User by id " + id + " was not found"));
-//    }
 
     public User findByEmail(String email) {
         return userRepo.findByEmail(email);
