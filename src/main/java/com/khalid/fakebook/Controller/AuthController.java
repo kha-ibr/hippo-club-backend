@@ -2,8 +2,11 @@ package com.khalid.fakebook.Controller;
 
 import com.khalid.fakebook.Encryption.EncryptPasswordGenerator;
 import com.khalid.fakebook.Service.AuthServise;
+import com.khalid.fakebook.Service.SessionService;
 import com.khalid.fakebook.dto.LoginReq;
 import com.khalid.fakebook.dto.RegisterReq;
+import com.khalid.fakebook.model.Session;
+import com.khalid.fakebook.model.User;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,8 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.khalid.fakebook.model.User;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -21,7 +25,8 @@ import java.util.UUID;
 @RequestMapping(value = "/api/auth")
 public class AuthController {
 
-    public final AuthServise authServise;
+    private final AuthServise authServise;
+    private final SessionService sessionService;
 
 
     @PostMapping("/register")
@@ -51,22 +56,22 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginReq req) {
-        User user = new User();
+    public ResponseEntity<Map<String, String>> login(@RequestBody LoginReq req) {
+        Map<String, String> errorResponse = new HashMap<String, String>();
+        Map<String, String> successResponse = new HashMap<String, String>();
 
-        User email = authServise.findByEmail(req.getEmail());
-        User dbPassword = authServise.findPasswordByEmail(req.getEmail());
-        boolean passwordVerified = EncryptPasswordGenerator.verifyUserPassword(req.getPassword(), dbPassword.getPassword(), dbPassword.getSalt());
+        User user = authServise.findByEmail(req.getEmail());
+        boolean passwordVerified = EncryptPasswordGenerator.verifyUserPassword(req.getPassword(), user.getPassword(), user.getSalt());
 
-        if (email == null)
-            return new ResponseEntity<>("Incorrect email or password", HttpStatus.BAD_REQUEST);
+        errorResponse.put("error", "Incorrect email or password");
+        if (user.getEmail() == null && !passwordVerified)
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 
-        if (!passwordVerified)
-            return new ResponseEntity<>("Incorrect email or password", HttpStatus.BAD_REQUEST);
+        String generateSession = UUID.randomUUID().toString();
 
-        String secret = UUID.randomUUID().toString();
-
-        //TODO: set a session id for authentication
-        return new ResponseEntity<>(secret, HttpStatus.ACCEPTED);
+        Session session = sessionService.saveSession(generateSession, user);
+        successResponse.put("Status", "Success");
+        successResponse.put("session", session.getSession());
+        return new ResponseEntity<>(successResponse, HttpStatus.ACCEPTED);
     }
 }

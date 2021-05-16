@@ -23,7 +23,6 @@ public class User {
     private String email;
     private String password;
     private String salt;
-    private String session;
     private String avatar;
     private Instant createdDate;
 }

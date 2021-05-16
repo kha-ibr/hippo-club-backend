@@ -21,7 +21,7 @@ public class Post {
     @Lob
     private String post_description;
     private Instant createdAt;
-    @ManyToOne
-    @JoinColumn(nullable = false, name = "user_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(nullable = false, name = "users_user_id")
     private User user;
 }
