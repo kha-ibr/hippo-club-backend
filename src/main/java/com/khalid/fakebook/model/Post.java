@@ -23,7 +23,6 @@ public class Post {
     @Column(name = "post_description")
     private String postDescription;
     private Instant createdAt;
-    @ManyToOne
-    @JoinColumn(nullable = false, name = "users_id")
-    private User user;
+    @Column(nullable = false, updatable = false, name = "owner_id")
+    private Long userId;
 }

@@ -16,7 +16,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false, updatable = false, name = "user_id")
-    private Long user_id;
+    private Long userId;
     private String firstname;
     private String lastname;
     @Column(nullable = false, updatable = false, unique=true)
@@ -25,4 +25,6 @@ public class User {
     private String salt;
     private String avatar;
     private Instant createdDate;
+//    @OneToMany(targetEntity = Post.class, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "owner_id", referencedColumnName = "user_id")
 }
