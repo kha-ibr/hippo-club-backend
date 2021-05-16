@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class SessionService {
     private final SessionRepo sessionRepo;
 
-    public Session saveSession(String sessionId, User userId) {
+    public Session saveSession(String sessionId, User userId, ) {
         Session session = new Session();
         session.setSession(sessionId);
         session.setUserId(userId.getUser_id());

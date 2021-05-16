@@ -17,6 +17,6 @@ public class Session {
     @Column(nullable = false, updatable = false)
     private Long session_id;
     private String session;
-    @Column(nullable = false, updatable = false, name = "user_id")
+    @Column(nullable = false, updatable = false)
     private Long userId;
 }
