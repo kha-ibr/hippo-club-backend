@@ -1,8 +1,11 @@
 package com.khalid.fakebook.Controller;
 
-import com.khalid.fakebook.Repo.UserRepo;
+import com.khalid.fakebook.Encryption.EncryptPasswordGenerator;
 import com.khalid.fakebook.Service.AuthServise;
+import com.khalid.fakebook.Service.SessionService;
+import com.khalid.fakebook.dto.LoginReq;
 import com.khalid.fakebook.dto.RegisterReq;
+import com.khalid.fakebook.model.Session;
 import com.khalid.fakebook.model.User;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -12,14 +15,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 
 @RestController
 @AllArgsConstructor
 @RequestMapping(value = "/api/auth")
 public class AuthController {
 
-    public final AuthServise authServise;
-    public final UserRepo userRepo;
+    private final AuthServise authServise;
+    private final SessionService sessionService;
 
 
     @PostMapping("/register")
@@ -49,26 +56,22 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginReq req) {
-        User newUser = new User();
-        User user = authServise.findByEmail(req.getEmail());
+    public ResponseEntity<Map<String, String>> login(@RequestBody LoginReq req) {
+        Map<String, String> errorResponse = new HashMap<String, String>();
+        Map<String, String> successResponse = new HashMap<String, String>();
 
+        User user = authServise.findByEmail(req.getEmail());
         boolean passwordVerified = EncryptPasswordGenerator.verifyUserPassword(req.getPassword(), user.getPassword(), user.getSalt());
 
+        errorResponse.put("error", "Incorrect email or password");
         if (user.getEmail() == null && !passwordVerified)
-            return new ResponseEntity<>("Incorrect email or password", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 
-//        if ()
-//            return new ResponseEntity<>("Incorrect email or password", HttpStatus.BAD_REQUEST);
+        String generateSession = UUID.randomUUID().toString();
 
-        String session = UUID.randomUUID().toString();
-        newUser.setSession_id(session);
-        //TODO: set a session id for authentication
-        userRepo.save(newUser);
-        System.out.println(newUser.getSession_id());
-
-
-
-        return new ResponseEntity<>("saveSession.toString()", HttpStatus.ACCEPTED);
+        Session session = sessionService.saveSession(generateSession, user);
+        successResponse.put("Status", "Success");
+        successResponse.put("session", session.getSession());
+        return new ResponseEntity<>(successResponse, HttpStatus.ACCEPTED);
     }
 }

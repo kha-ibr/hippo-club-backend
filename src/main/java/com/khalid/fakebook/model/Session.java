@@ -16,7 +16,7 @@ public class Session {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false, updatable = false)
     private Long session_id;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(nullable = false, name = "users_user_id")
-    private User user;
+    private String session;
+    @Column(nullable = false, updatable = false, name = "user_id")
+    private Long userId;
 }
