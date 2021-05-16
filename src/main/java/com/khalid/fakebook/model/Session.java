@@ -5,23 +5,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.Instant;
 
+@Entity
+@Table(name = "sessions")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "posts")
-public class Post {
+public class Session {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false, updatable = false)
-    private Long post_id;
-    private String post_url;
-    @Lob
-    private String post_description;
-    private Instant createdAt;
-    @ManyToOne(cascade = CascadeType.ALL)
+    private Long session_id;
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(nullable = false, name = "users_user_id")
     private User user;
 }

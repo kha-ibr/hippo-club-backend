@@ -1,16 +1,14 @@
 package com.khalid.fakebook.Service;
 
-import com.khalid.fakebook.Encryption.EncryptPasswordGenerator;
 import com.khalid.fakebook.Repo.UserRepo;
-import com.khalid.fakebook.dto.LoginReq;
 import com.khalid.fakebook.dto.RegisterReq;
 import com.khalid.fakebook.model.User;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.Instant;
-import java.util.Map.Entry;
 
 
 @Service
@@ -18,20 +16,19 @@ import java.util.Map.Entry;
 public class AuthServise {
 
     private final UserRepo userRepo;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public void register(RegisterReq req) {
         User user = new User();
 
-        String salt = EncryptPasswordGenerator.getSalt(30);
-        String password = EncryptPasswordGenerator.generateSecurePassword(req.getPassword(), salt);
+//        String salt = EncryptPasswordGenerator.getSalt(30);
+//        String password = EncryptPasswordGenerator.generateSecurePassword(req.getPassword(), salt);
 
-        user.setPassword(password);
-        user.setSalt(salt);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setFirstname(req.getFirstname());
         user.setLastname(req.getLastname());
         user.setEmail(req.getEmail());
-        user.setAvatar(req.getAvatar());
         user.setCreatedDate(Instant.now());
         userRepo.save(user);
     }
@@ -43,10 +40,6 @@ public class AuthServise {
 //    public User findUserById(Long id) {
 //        return userRepo.findById(id).orElseThrow(()-> new UserNotFoundException("User by id " + id + " was not found"));
 //    }
-
-    public User findPasswordByEmail(String email) {
-        return userRepo.findPasswordByEmail(email);
-    }
 
     public User findByEmail(String email) {
         return userRepo.findByEmail(email);
