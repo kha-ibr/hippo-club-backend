@@ -11,10 +11,11 @@ import org.springframework.stereotype.Service;
 public class SessionService {
     private final SessionRepo sessionRepo;
 
-    public Session saveSession(String sessionId, User userId) {
+    public Session saveSession(String sessionId, User user) {
         Session session = new Session();
+
         session.setSession(sessionId);
-        session.setUserId(userId.getUserId());
+        session.setUser(user);
         return sessionRepo.save(session);
     }
 

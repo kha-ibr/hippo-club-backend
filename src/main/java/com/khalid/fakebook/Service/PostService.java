@@ -1,7 +1,7 @@
 package com.khalid.fakebook.Service;
 
+import com.khalid.fakebook.Exception.UserNotFoundException;
 import com.khalid.fakebook.Repo.PostRepo;
-import com.khalid.fakebook.Repo.SessionRepo;
 import com.khalid.fakebook.Repo.UserRepo;
 import com.khalid.fakebook.dto.PostReq;
 import com.khalid.fakebook.model.Post;
@@ -16,25 +16,34 @@ import java.util.List;
 public class PostService {
 
     private final PostRepo postRepo;
-    private final SessionRepo sessionRepo;
+    private final UserRepo userRepo;
 
-    public void addPost(PostReq req, String validateSession) {
+    public Post addPost(PostReq req, Long userId) {
         Post post = new Post();
-
-        Long sessionId = sessionRepo.findBySession(validateSession).getUserId();
         post.setPostImgUrl(req.getImgUrl());
         post.setPostDescription(req.getPostDescription());
         post.setCreatedAt(Instant.now());
-        post.setUserId(sessionId);
-        postRepo.save(post);
+
+        return userRepo.findById(userId).map(user -> {
+            post.setUser(user);
+            return postRepo.save(post);
+        })
+        .orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
     public List<Post> findAllPosts() {
         return postRepo.findAll();
     }
 
-    public Post updatePost(Post post) {
-        return postRepo.save(post);
+    public void updatePost(PostReq req, Long postId) {
+
+        postRepo.findById(postId).map(post -> {
+            post.setPostImgUrl(req.getImgUrl());
+            post.setPostDescription(req.getPostDescription());
+            post.setCreatedAt(Instant.now());
+            return postRepo.save(post);
+        })
+        .orElseThrow(() -> new UserNotFoundException("post id not found"));
     }
 
     public void deletePost(Long id) {
