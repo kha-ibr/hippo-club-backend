@@ -3,7 +3,6 @@ package com.khalid.fakebook.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.Instant;
 
 @Data
 @AllArgsConstructor
@@ -13,7 +12,4 @@ public class RegisterReq {
     private String lastname;
     private String email;
     private String password;
-    private String avatar;
-    private Instant createdDate;
-    private Boolean enabled;
 }

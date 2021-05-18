@@ -1,13 +1,13 @@
 package com.khalid.fakebook.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.Instant;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -23,6 +23,9 @@ public class Post {
     @Column(name = "post_description")
     private String postDescription;
     private Instant createdAt;
-    @Column(nullable = false, updatable = false, name = "owner_id")
-    private Long userId;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id", referencedColumnName = "user_id")
+    private User user;
 }

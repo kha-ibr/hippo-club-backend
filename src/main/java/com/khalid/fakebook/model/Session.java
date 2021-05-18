@@ -17,6 +17,7 @@ public class Session {
     @Column(nullable = false, updatable = false)
     private Long session_id;
     private String session;
-    @Column(nullable = false, updatable = false)
-    private Long userId;
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    private User user;
 }
