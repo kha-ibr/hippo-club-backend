@@ -1,13 +1,15 @@
 package com.khalid.fakebook.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.Instant;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -15,13 +17,17 @@ import java.time.Instant;
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(nullable = false, updatable = false)
-    private Long post_id;
-    private String post_url;
+    @Column(nullable = false, updatable = false, name = "post_id")
+    private Long postId;
+    @Column(name = "post_img_url")
+    private String postImgUrl;
     @Lob
-    private String post_description;
+    @Column(name = "post_description")
+    private String postDescription;
+    @Column(nullable = false, name = "created_at")
     private Instant createdAt;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(nullable = false, name = "users_user_id")
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false, updatable = false)
     private User user;
 }

@@ -1,22 +1,23 @@
 package com.khalid.fakebook.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "sessions")
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Session {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(nullable = false, updatable = false)
-    private Long session_id;
+    @Column(nullable = false, updatable = false, name = "session_id")
+    private Long sessionId;
+    @Column(name = "ssid", nullable = false)
     private String session;
-    @Column(nullable = false, updatable = false, name = "user_id")
-    private Long userId;
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
+    private User user;
 }

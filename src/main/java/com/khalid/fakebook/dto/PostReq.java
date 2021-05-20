@@ -7,9 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterReq {
-    private String firstname;
-    private String lastname;
-    private String email;
-    private String password;
+public class PostReq {
+    private String imgUrl;
+    private String postDescription;
 }
