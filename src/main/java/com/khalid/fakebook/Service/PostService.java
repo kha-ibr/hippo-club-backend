@@ -7,9 +7,12 @@ import com.khalid.fakebook.dto.PostReq;
 import com.khalid.fakebook.model.Post;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Stream;
 
 @Service
 @AllArgsConstructor
@@ -17,22 +20,34 @@ public class PostService {
 
     private final PostRepo postRepo;
     private final UserRepo userRepo;
+    private final AuthServise authServise;
 
-    public Post addPost(PostReq req, Long userId) {
+    @Transactional
+    public void addPost(PostReq req, Long userId) {
         Post post = new Post();
-        post.setPostImgUrl(req.getImgUrl());
-        post.setPostDescription(req.getPostDescription());
-        post.setCreatedAt(Instant.now());
-
-        return userRepo.findById(userId).map(user -> {
+        userRepo.findUserByUserId(userId).map(user -> {
+            post.setPostImgUrl(req.getImgUrl());
+            post.setPostDescription(req.getPostDescription());
+            post.setCreatedAt(Instant.now());
             post.setUser(user);
             return postRepo.save(post);
         })
-        .orElseThrow(() -> new UserNotFoundException("User not found"));
-    }
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
-    public List<Post> findAllPosts() {
-        return postRepo.findAll();
+    }
+    @Transactional(readOnly = true)
+    public Stream<?> findAllPosts() {
+        return postRepo.findAll()
+                .stream().map(post -> {
+                    Map<String, String> userinfo = new HashMap<>();
+                    userinfo.put("Firstname", post.getUser().getFirstname());
+                    userinfo.put("Lastname", post.getUser().getLastname());
+                    userinfo.put("Avatar", post.getUser().getAvatar());
+                    userinfo.put("Image", post.getPostImgUrl());
+                    userinfo.put("Image description", post.getPostDescription());
+                    userinfo.put("Date created", post.getCreatedAt().toString());
+                    return userinfo;
+                });
     }
 
     public void updatePost(PostReq req, Long postId) {
@@ -46,8 +61,12 @@ public class PostService {
         .orElseThrow(() -> new UserNotFoundException("post id not found"));
     }
 
-    public void deletePost(Long id) {
-        postRepo.deleteById(id);
+    public void deletePost(Long postId) {
+        postRepo.findByPostId(postId).map(post -> {
+            postRepo.delete(post);
+            return post.getPostId();
+        })
+        .orElseThrow(() -> new UserNotFoundException("post not found"));
     }
 
 }

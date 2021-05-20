@@ -6,6 +6,7 @@ import com.khalid.fakebook.Service.AuthServise;
 import com.khalid.fakebook.Service.SessionService;
 import com.khalid.fakebook.dto.LoginReq;
 import com.khalid.fakebook.dto.RegisterReq;
+import com.khalid.fakebook.dto.UpdateUserReq;
 import com.khalid.fakebook.model.Session;
 import com.khalid.fakebook.model.User;
 import lombok.AllArgsConstructor;
@@ -26,9 +27,8 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterReq req) {
-
-        if(req.getFirstname().isEmpty() && req.getLastname().isEmpty())
-            return new ResponseEntity<>(ResponseException.jsonResponse("error", "First and last name should not be empty."), HttpStatus.BAD_REQUEST);
+        if(req.getFirstname() == null && req.getLastname() == null)
+            return new ResponseEntity<>(ResponseException.jsonResponse("error", "one or more fields appears to be empty."), HttpStatus.BAD_REQUEST);
 
         //Checking for email patterns
         String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
@@ -76,26 +76,26 @@ public class AuthController {
     }
 
     @PutMapping("/update/{userId}")
-    public ResponseEntity<?> updateUser(@RequestBody User user, @PathVariable("userId") Long userId, @RequestHeader(value = "session") String validateSession) {
-        System.out.println(userId);
+    public ResponseEntity<?> updateUser(@RequestBody UpdateUserReq req, @PathVariable("userId") Long userId, @RequestHeader(value = "Authentication") String validateSession) {
+
         if (sessionService.findBySession(validateSession) == null)
             return new ResponseEntity<>(ResponseException.jsonResponse("error", "Access denied. You need to login first"), HttpStatus.FORBIDDEN);
 
-        authServise.updateUser(user, userId);
+        authServise.updateUser(req, userId);
         return new ResponseEntity<>(ResponseException.jsonResponse("success", "Post updated successfully"), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete/{userId}")
-    public ResponseEntity<?> deleteUser(@PathVariable("userId") Long id,  @RequestHeader(value = "session") String validateSession) {
-
+    public ResponseEntity<?> deleteUser(@PathVariable("userId") Long id,  @RequestHeader(value = "Authentication") String validateSession) {
+        // checking if the user is logged in by validating the session id.
         if (sessionService.findBySession(validateSession) == null)
             return new ResponseEntity<>(ResponseException.jsonResponse("error", "Access denied. You need to login first"), HttpStatus.FORBIDDEN);
 
+        //checking if the user id exists in the database.
         if (authServise.findById(id).isEmpty())
             return new ResponseEntity<>(ResponseException.jsonResponse("error", "There is no user with that (" + id + ") id"), HttpStatus.BAD_REQUEST);
 
         authServise.deleteUser(id);
-
         return new ResponseEntity<>(ResponseException.jsonResponse("success", "User with the id of (" + id + ") is deleted successfully"), HttpStatus.OK);
     }
 }

@@ -1,5 +1,6 @@
 package com.khalid.fakebook.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,29 +11,37 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
+@Entity
+@Table(name = "users")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false, updatable = false, name = "user_id")
     private Long userId;
+    @Column(name = "firstname")
     private String firstname;
+    @Column(name = "lastname")
     private String lastname;
-    @Column(nullable = false, updatable = false, unique=true)
+    @Column(updatable = false, unique=true, name = "email")
     private String email;
+    @Column(name = "pwd")
     private String password;
+    @Column(name = "salt")
     private String salt;
+    @Column(name = "avatar")
     private String avatar;
+    @Column(name = "created_at")
     private Instant createdAt;
+    // POST
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonIgnoreProperties(allowGetters= true)
     private Set<Post> posts = new HashSet<>();
-
-    @OneToOne(cascade =  CascadeType.ALL, mappedBy = "user")
+    // SESSION
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private Session session;
 }

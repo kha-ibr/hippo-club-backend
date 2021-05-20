@@ -22,5 +22,4 @@ public class SessionService {
     public Session findBySession(String session) {
         return sessionRepo.findBySession(session);
     }
-
 }
