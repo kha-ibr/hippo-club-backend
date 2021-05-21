@@ -50,6 +50,7 @@ public class PostService {
                 });
     }
 
+    @Transactional
     public void updatePost(PostReq req, Long postId) {
 
         postRepo.findById(postId).map(post -> {
@@ -60,7 +61,7 @@ public class PostService {
         })
         .orElseThrow(() -> new UserNotFoundException("post id not found"));
     }
-
+    @Transactional
     public void deletePost(Long postId) {
         postRepo.findByPostId(postId).map(post -> {
             postRepo.delete(post);

@@ -38,10 +38,10 @@ public class User {
     private Instant createdAt;
     // POST
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
     @JsonIgnoreProperties(allowGetters= true)
     private Set<Post> posts = new HashSet<>();
     // SESSION
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
     private Session session;
 }

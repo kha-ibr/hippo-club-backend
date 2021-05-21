@@ -63,9 +63,3 @@ public class PostController {
         return new ResponseEntity<>(ResponseException.jsonResponse("success", "Post deleted successfully"), HttpStatus.CREATED);
     }
 }
-/*
-* <tr>
-    <a href="/7/delete/{6}">
-* </tr>
-*
-* */

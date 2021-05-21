@@ -14,7 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
+import java.util.*;
 
 
 @RestController
@@ -58,9 +58,6 @@ public class AuthController {
             // Decrypt password
             boolean passwordVerified = EncryptPasswordGenerator.verifyUserPassword(req.getPassword(), user.getPassword(), user.getSalt());
 
-            //TODO: Check if the user provide something or not
-            //TODO: Create error handler response class
-
             // Check if if email and password is not null
             if (user.getEmail() == null && !passwordVerified)
                 return new ResponseEntity<>(ResponseException.jsonResponse("error", "Incorrect email or password"), HttpStatus.BAD_REQUEST);
@@ -69,7 +66,7 @@ public class AuthController {
             String generateSession = UUID.randomUUID().toString();
             Session session = sessionService.saveSession(generateSession, user);
 
-            return new ResponseEntity<>(ResponseException.jsonResponse("success", session.getSession()), HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(ResponseException.jsonResponseWithUserInfo(session.getUser(), session), HttpStatus.ACCEPTED);
         }
 
         return new ResponseEntity<>(ResponseException.jsonResponse("error", "There is no user with that " + req.getEmail()), HttpStatus.BAD_REQUEST);
@@ -83,6 +80,18 @@ public class AuthController {
 
         authServise.updateUser(req, userId);
         return new ResponseEntity<>(ResponseException.jsonResponse("success", "Post updated successfully"), HttpStatus.CREATED);
+    }
+
+    // doesn't work needs fixing
+    @PostMapping ("/logout")
+    public ResponseEntity<?> logout(@RequestHeader(value = "Authentication") String validateSession) {
+        Session session = sessionService.findBySession(validateSession);
+
+        if (session == null)
+            return new ResponseEntity<>(ResponseException.jsonResponse("error", "Access denied. You need to login first"), HttpStatus.FORBIDDEN);
+
+        sessionService.deletePost(session);
+        return new ResponseEntity<>(ResponseException.jsonResponse("Massage", "You are logout"), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{userId}")
