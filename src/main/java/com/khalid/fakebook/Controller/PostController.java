@@ -1,9 +1,7 @@
 package com.khalid.fakebook.Controller;
 
 import com.khalid.fakebook.Exception.ResponseException;
-import com.khalid.fakebook.Repo.UserRepo;
 import com.khalid.fakebook.Service.PostService;
-import com.khalid.fakebook.Service.SessionService;
 import com.khalid.fakebook.dto.PostReq;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,32 +14,24 @@ import org.springframework.web.bind.annotation.*;
 public class PostController {
 
     private final PostService postService;
-    private final SessionService sessionService;
-    private final UserRepo userRepo;
 
+    @CrossOrigin
     @GetMapping("/allPost")
-    public ResponseEntity<?> getAllPosts(@RequestHeader(value = "Authentication") String validateSession) {
-        if (sessionService.findBySession(validateSession) == null)
-            return new ResponseEntity<>(ResponseException.jsonResponse("error", "Access denied. You need to login first"), HttpStatus.FORBIDDEN);
-
+    public ResponseEntity<?> getAllPosts() {
         return new ResponseEntity<>(postService.findAllPosts(), HttpStatus.OK);
     }
 
+    @CrossOrigin
     @PostMapping("/{id}/upload")
-    public ResponseEntity<?> createPost(@RequestBody PostReq req, @RequestHeader(value = "Authentication") String validateSession, @PathVariable(value = "id") Long userId) {
-
-        if (sessionService.findBySession(validateSession) == null)
-            return new ResponseEntity<>(ResponseException.jsonResponse("error", "Access denied. You need to login first"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<?> createPost(@RequestBody PostReq req, @PathVariable("id") Long userId) {
 
         postService.addPost(req, userId);
         return new ResponseEntity<>(ResponseException.jsonResponse("success", "Image added successfully"), HttpStatus.CREATED);
     }
 
-
+    @CrossOrigin
     @PutMapping("/editPost/{id}")
-    public ResponseEntity<?> editPost(@RequestBody PostReq req, @RequestHeader(value = "Authentication") String validateSession, @PathVariable("id") Long postId) {
-        if (sessionService.findBySession(validateSession) == null)
-            return new ResponseEntity<>(ResponseException.jsonResponse("error", "Access denied. You need to login first"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<?> editPost(@RequestBody PostReq req, @PathVariable("id") Long postId) {
 
         if (postId == null)
             return new ResponseEntity<>(ResponseException.jsonResponse("error", "Post id " + postId + " not found"), HttpStatus.BAD_REQUEST);
@@ -50,11 +40,9 @@ public class PostController {
         return new ResponseEntity<>(ResponseException.jsonResponse("success", "Post updated successfully"), HttpStatus.CREATED);
     }
 
+    @CrossOrigin
     @DeleteMapping("/delete/{postId}")
-    public ResponseEntity<?> deletePost(@RequestHeader(value = "Authentication") String validateSession, @PathVariable("postId") Long postId) {
-
-        if (sessionService.findBySession(validateSession) == null)
-            return new ResponseEntity<>(ResponseException.jsonResponse("error", "Access denied. You need to login first"), HttpStatus.FORBIDDEN);
+    public ResponseEntity<?> deletePost(@PathVariable("postId") Long postId) {
 
         if (postId == null)
             return new ResponseEntity<>(ResponseException.jsonResponse("error", "Post id " + postId + " not found"), HttpStatus.BAD_REQUEST);

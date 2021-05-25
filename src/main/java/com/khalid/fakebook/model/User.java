@@ -36,12 +36,9 @@ public class User {
     private String avatar;
     @Column(name = "created_at")
     private Instant createdAt;
-    // POST
 
+    // POST
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
     @JsonIgnoreProperties(allowGetters= true)
     private Set<Post> posts = new HashSet<>();
-    // SESSION
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
-    private Session session;
 }

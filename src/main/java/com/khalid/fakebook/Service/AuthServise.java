@@ -21,7 +21,7 @@ public class AuthServise {
     private final UserRepo userRepo;
 
     @Transactional
-    public void register(RegisterReq req) {
+    public User register(RegisterReq req) {
         User user = new User();
 
         String salt = EncryptPasswordGenerator.getSalt(30);
@@ -33,7 +33,7 @@ public class AuthServise {
         user.setLastname(req.getLastname());
         user.setEmail(req.getEmail());
         user.setCreatedAt(Instant.now());
-        userRepo.save(user);
+        return userRepo.save(user);
     }
 
     public User findByEmail(String email) {
@@ -42,7 +42,7 @@ public class AuthServise {
 
     public void updateUser(UpdateUserReq req, Long userId) {
 
-        userRepo.findUserByUserId(userId).map(user -> {
+        userRepo.findById(userId).map(user -> {
             user.setAvatar(req.getAvatar());
             return userRepo.save(user);
         })
@@ -57,6 +57,6 @@ public class AuthServise {
     }
 
     public Optional<User> findById(Long id){
-        return userRepo.findUserByUserId(id);
+        return userRepo.findByUserId(id);
     }
 }

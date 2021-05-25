@@ -20,12 +20,12 @@ public class PostService {
 
     private final PostRepo postRepo;
     private final UserRepo userRepo;
-    private final AuthServise authServise;
 
     @Transactional
     public void addPost(PostReq req, Long userId) {
         Post post = new Post();
-        userRepo.findUserByUserId(userId).map(user -> {
+        System.out.println(req);
+        userRepo.findByUserId(userId).map(user -> {
             post.setPostImgUrl(req.getImgUrl());
             post.setPostDescription(req.getPostDescription());
             post.setCreatedAt(Instant.now());
@@ -39,14 +39,15 @@ public class PostService {
     public Stream<?> findAllPosts() {
         return postRepo.findAll()
                 .stream().map(post -> {
-                    Map<String, String> userinfo = new HashMap<>();
-                    userinfo.put("Firstname", post.getUser().getFirstname());
-                    userinfo.put("Lastname", post.getUser().getLastname());
-                    userinfo.put("Avatar", post.getUser().getAvatar());
-                    userinfo.put("Image", post.getPostImgUrl());
-                    userinfo.put("Image description", post.getPostDescription());
-                    userinfo.put("Date created", post.getCreatedAt().toString());
-                    return userinfo;
+                    Map<String, Object> postInfo = new HashMap<>();
+                    postInfo.put("postId", post.getPostId());
+                    postInfo.put("firstname", post.getUser().getFirstname());
+                    postInfo.put("lastname", post.getUser().getLastname());
+                    postInfo.put("avatar", post.getUser().getAvatar());
+                    postInfo.put("image", post.getPostImgUrl());
+                    postInfo.put("postDescription", post.getPostDescription());
+                    postInfo.put("createdAt", post.getCreatedAt().toString());
+                    return postInfo;
                 });
     }
 
