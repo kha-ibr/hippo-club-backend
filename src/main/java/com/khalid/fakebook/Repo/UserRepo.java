@@ -6,9 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface UserRepo extends JpaRepository<User, Long> {
-    Optional<Object> findUserByName(String firstName, String lastName);
-
-    void deleteUserById(Long id);
-
-    User findUserById(Long id);
+    Optional<User> findByUserId(Long id);
+    User findByEmail(String email);
 }

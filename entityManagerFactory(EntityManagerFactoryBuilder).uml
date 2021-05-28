@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>Persistence</ID>
+  <OriginalElement>JavaeeElement:/b4817ce1/entityManagerFactory/fakebook/jpa/JPA/PersistenceModel</OriginalElement>
+  <nodes>
+    <node x="204.0" y="247.0">AbstractPersistable#jar://C:/Users/khaib/.m2/repository/org/springframework/data/spring-data-jpa/2.4.8/spring-data-jpa-2.4.8.jar!/org/springframework/data/jpa/domain/AbstractPersistable.class</node>
+    <node x="314.0" y="-14.0">Session#file://C:/Users/khaib/OneDrive/Skrivbord/fakebook/src/main/java/com/khalid/fakebook/model/Session.java</node>
+    <node x="76.0" y="40.0">Post#file://C:/Users/khaib/OneDrive/Skrivbord/fakebook/src/main/java/com/khalid/fakebook/model/Post.java</node>
+    <node x="0.0" y="207.0">AbstractAuditable#jar://C:/Users/khaib/.m2/repository/org/springframework/data/spring-data-jpa/2.4.8/spring-data-jpa-2.4.8.jar!/org/springframework/data/jpa/domain/AbstractAuditable.class</node>
+    <node x="0.0" y="0.0">User#file://C:/Users/khaib/OneDrive/Skrivbord/fakebook/src/main/java/com/khalid/fakebook/model/User.java</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="AbstractAuditable#jar://C:/Users/khaib/.m2/repository/org/springframework/data/spring-data-jpa/2.4.8/spring-data-jpa-2.4.8.jar!/org/springframework/data/jpa/domain/AbstractAuditable.class" target="AbstractPersistable#jar://C:/Users/khaib/.m2/repository/org/springframework/data/spring-data-jpa/2.4.8/spring-data-jpa-2.4.8.jar!/org/springframework/data/jpa/domain/AbstractPersistable.class" relationship="INHERITANCE">
+      <point x="0.0" y="-34.0" />
+      <point x="184.0" y="212.0" />
+      <point x="184.0" y="227.0" />
+      <point x="285.0" y="227.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="User#file://C:/Users/khaib/OneDrive/Skrivbord/fakebook/src/main/java/com/khalid/fakebook/model/User.java" target="Post#file://C:/Users/khaib/OneDrive/Skrivbord/fakebook/src/main/java/com/khalid/fakebook/model/Post.java" relationship="RELATION">
+      <point x="0.0" y="-10.5" />
+      <point x="56.0" y="5.0" />
+      <point x="56.0" y="20.0" />
+      <point x="156.5" y="20.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="User#file://C:/Users/khaib/OneDrive/Skrivbord/fakebook/src/main/java/com/khalid/fakebook/model/User.java" target="Session#file://C:/Users/khaib/OneDrive/Skrivbord/fakebook/src/main/java/com/khalid/fakebook/model/Session.java" relationship="RELATION">
+      <point x="0.0" y="-10.5" />
+      <point x="56.0" y="5.0" />
+      <point x="56.0" y="20.0" />
+      <point x="373.0" y="20.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+  </edges>
+  <settings layout="Compact" zoom="1.0" showDependencies="false" x="149.5" y="216.0" />
+  <SelectedNodes>
+    <node>Session#file://C:/Users/khaib/OneDrive/Skrivbord/fakebook/src/main/java/com/khalid/fakebook/model/Session.java</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Properties</Category>
+    <Category>Superclasses</Category>
+  </Categories>
+</Diagram>
+
