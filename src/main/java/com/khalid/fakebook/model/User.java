@@ -1,6 +1,6 @@
 package com.khalid.fakebook.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,6 +39,6 @@ public class User {
 
     // POST
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
-    @JsonIgnoreProperties(allowGetters= true)
+    @JsonIgnore
     private Set<Post> posts = new HashSet<>();
 }

@@ -30,6 +30,19 @@ public class PostController {
     }
 
     @CrossOrigin
+    @GetMapping("/userPosts/{id}")
+    public ResponseEntity<?> getUserPost(@PathVariable("id") Long userId) {
+        return new ResponseEntity<>(postService.findAllPostByUser(userId), HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @GetMapping("/getPost/{id}")
+    public ResponseEntity<?> getPost(@PathVariable("id") Long postId) {
+        System.out.println(postId);
+        return new ResponseEntity<>(postService.findPostById(postId), HttpStatus.OK);
+    }
+
+    @CrossOrigin
     @PutMapping("/editPost/{id}")
     public ResponseEntity<?> editPost(@RequestBody PostReq req, @PathVariable("id") Long postId) {
 

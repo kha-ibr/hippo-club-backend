@@ -47,19 +47,13 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginReq req) {
         User user = authServise.findByEmail(req.getEmail());
+        System.out.println(req);
+        if (user == null)
+            return new ResponseEntity<>(ResponseException.jsonResponse("error", "Incorrect email or password"), HttpStatus.BAD_REQUEST);
+        // Decrypt password
+        EncryptPasswordGenerator.verifyUserPassword(req.getPassword(), user.getPassword(), user.getSalt());
 
-        if (user != null) {
-            // Decrypt password
-            boolean passwordVerified = EncryptPasswordGenerator.verifyUserPassword(req.getPassword(), user.getPassword(), user.getSalt());
-
-            // Check if if email and password is not null
-            if (user.getEmail() == null && !passwordVerified)
-                return new ResponseEntity<>(ResponseException.jsonResponse("error", "Incorrect email or password"), HttpStatus.BAD_REQUEST);
-
-            return new ResponseEntity<>(ResponseException.jsonResponseWithUserInfo(user), HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>(ResponseException.jsonResponse("error", "There is no user with that " + req.getEmail()), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(ResponseException.jsonResponseWithUserInfo(user), HttpStatus.OK);
     }
 
     @CrossOrigin

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 @Service
@@ -36,7 +37,7 @@ public class PostService {
 
     }
     @Transactional(readOnly = true)
-    public Stream<?> findAllPosts() {
+    public Stream<Object> findAllPosts() {
         return postRepo.findAll()
                 .stream().map(post -> {
                     Map<String, Object> postInfo = new HashMap<>();
@@ -49,6 +50,26 @@ public class PostService {
                     postInfo.put("createdAt", post.getCreatedAt().toString());
                     return postInfo;
                 });
+    }
+
+    @Transactional(readOnly = true)
+    public Stream<?> findAllPostByUser(Long userId) {
+        return postRepo.findAllPostAndUserId(userId)
+                .stream().map(post -> {
+            Map<String, Object> postInfo = new HashMap<>();
+            postInfo.put("postId", post.getPostId());
+            postInfo.put("firstname", post.getUser().getFirstname());
+            postInfo.put("lastname", post.getUser().getLastname());
+            postInfo.put("avatar", post.getUser().getAvatar());
+            postInfo.put("image", post.getPostImgUrl());
+            postInfo.put("postDescription", post.getPostDescription());
+            postInfo.put("createdAt", post.getCreatedAt().toString());
+            return postInfo;
+        });
+    }
+
+    public Optional<Post> findPostById(Long postId) {
+        return postRepo.findPostByPostId(postId);
     }
 
     @Transactional
@@ -64,11 +85,10 @@ public class PostService {
     }
     @Transactional
     public void deletePost(Long postId) {
-        postRepo.findByPostId(postId).map(post -> {
+        postRepo.findPostByPostId(postId).map(post -> {
             postRepo.delete(post);
             return post.getPostId();
         })
         .orElseThrow(() -> new UserNotFoundException("post not found"));
     }
-
 }
