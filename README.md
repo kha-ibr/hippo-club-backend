@@ -8,8 +8,10 @@ The frontend is made with React, and the source code for it is available here. h
 * Spring JPA
 * Spring MySQL driver
 
-#### Java Version
-Java 11
+#### Requirements
+For building and running the application you need:
+Java 11<br/>
+Apache Maven
 
 #### Frontend code
-The Frontend port was build with react and here is the code for it: https://github.com/hippoClub/hippo-club-frontend
+The Frontend port was build using React and here is the code for it: https://github.com/hippoClub/hippo-club-frontend
