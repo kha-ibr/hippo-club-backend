@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.khalid</groupId>
-	<artifactId>Hippo Club</artifactId>
+	<artifactId>hippo-club</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Hippo Club</name>
 	<description>Hippo club is a where you share your thoughts and post images</description>
@@ -54,7 +54,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.khalid</groupId>
-			<artifactId>Hippo Club</artifactId>
+			<artifactId>hippo-club</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
