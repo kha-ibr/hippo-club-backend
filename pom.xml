@@ -53,11 +53,6 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.khalid</groupId>
-			<artifactId>hippo-club</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>42.2.20</version>
