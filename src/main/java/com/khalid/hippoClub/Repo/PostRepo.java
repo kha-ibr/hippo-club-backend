@@ -1,6 +1,6 @@
-package com.khalid.fakebook.Repo;
+package com.khalid.hippoClub.Repo;
 
-import com.khalid.fakebook.model.Post;
+import com.khalid.hippoClub.model.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

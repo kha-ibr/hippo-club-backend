@@ -1,6 +1,6 @@
-package com.khalid.fakebook.Exception;
+package com.khalid.hippoClub.Exception;
 
-import com.khalid.fakebook.model.User;
+import com.khalid.hippoClub.model.User;
 
 import java.util.HashMap;
 import java.util.Map;

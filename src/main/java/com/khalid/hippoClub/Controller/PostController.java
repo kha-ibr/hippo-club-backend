@@ -1,8 +1,8 @@
-package com.khalid.fakebook.Controller;
+package com.khalid.hippoClub.Controller;
 
-import com.khalid.fakebook.Exception.ResponseException;
-import com.khalid.fakebook.Service.PostService;
-import com.khalid.fakebook.dto.PostReq;
+import com.khalid.hippoClub.Exception.ResponseException;
+import com.khalid.hippoClub.Service.PostService;
+import com.khalid.hippoClub.dto.PostReq;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

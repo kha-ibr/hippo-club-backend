@@ -1,10 +1,10 @@
-package com.khalid.fakebook.Service;
+package com.khalid.hippoClub.Service;
 
-import com.khalid.fakebook.Exception.UserNotFoundException;
-import com.khalid.fakebook.Repo.PostRepo;
-import com.khalid.fakebook.Repo.UserRepo;
-import com.khalid.fakebook.dto.PostReq;
-import com.khalid.fakebook.model.Post;
+import com.khalid.hippoClub.Exception.UserNotFoundException;
+import com.khalid.hippoClub.Repo.PostRepo;
+import com.khalid.hippoClub.Repo.UserRepo;
+import com.khalid.hippoClub.dto.PostReq;
+import com.khalid.hippoClub.model.Post;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

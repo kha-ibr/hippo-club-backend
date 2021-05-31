@@ -1,4 +1,4 @@
-package com.khalid.fakebook.PasswordEncryption;
+package com.khalid.hippoClub.PasswordEncryption;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;

@@ -1,4 +1,4 @@
-package com.khalid.fakebook.dto;
+package com.khalid.hippoClub.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

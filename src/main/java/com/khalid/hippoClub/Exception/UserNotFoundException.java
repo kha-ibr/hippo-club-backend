@@ -1,4 +1,4 @@
-package com.khalid.fakebook.Exception;
+package com.khalid.hippoClub.Exception;
 
 public class UserNotFoundException extends RuntimeException{
 

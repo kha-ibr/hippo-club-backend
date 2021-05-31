@@ -1,11 +1,11 @@
-package com.khalid.fakebook.Service;
+package com.khalid.hippoClub.Service;
 
-import com.khalid.fakebook.Exception.UserNotFoundException;
-import com.khalid.fakebook.PasswordEncryption.EncryptPasswordGenerator;
-import com.khalid.fakebook.Repo.UserRepo;
-import com.khalid.fakebook.dto.RegisterReq;
-import com.khalid.fakebook.dto.UpdateUserReq;
-import com.khalid.fakebook.model.User;
+import com.khalid.hippoClub.Exception.UserNotFoundException;
+import com.khalid.hippoClub.PasswordEncryption.EncryptPasswordGenerator;
+import com.khalid.hippoClub.Repo.UserRepo;
+import com.khalid.hippoClub.dto.RegisterReq;
+import com.khalid.hippoClub.dto.UpdateUserReq;
+import com.khalid.hippoClub.model.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

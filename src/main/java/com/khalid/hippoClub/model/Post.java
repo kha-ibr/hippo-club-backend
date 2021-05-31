@@ -1,4 +1,4 @@
-package com.khalid.fakebook.model;
+package com.khalid.hippoClub.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
