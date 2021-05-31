@@ -1,4 +1,4 @@
-package com.khalid.facebbook;
+package com.khalid.hippo_club;
 
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
