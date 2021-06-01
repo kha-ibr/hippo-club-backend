@@ -16,7 +16,7 @@ import java.time.Instant;
 @Table(name = "posts")
 public class Post {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false, name = "post_id")
     private Long postId;
     @Column(name = "post_img_url")
