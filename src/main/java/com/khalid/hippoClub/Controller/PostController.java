@@ -15,13 +15,13 @@ public class PostController {
 
     private final PostService postService;
 
-    @CrossOrigin
+    @CrossOrigin(origins = "https://hippo-club.herokuapp.com/")
     @GetMapping("/allPost")
     public ResponseEntity<?> getAllPosts() {
         return new ResponseEntity<>(postService.findAllPosts(), HttpStatus.OK);
     }
 
-    @CrossOrigin
+    @CrossOrigin(origins = "https://hippo-club.herokuapp.com/")
     @PostMapping("/{id}/upload")
     public ResponseEntity<?> createPost(@RequestBody PostReq req, @PathVariable("id") Long userId) {
 
@@ -29,20 +29,20 @@ public class PostController {
         return new ResponseEntity<>(ResponseException.jsonResponse("success", "Image added successfully"), HttpStatus.CREATED);
     }
 
-    @CrossOrigin
+    @CrossOrigin(origins = "https://hippo-club.herokuapp.com/")
     @GetMapping("/userPosts/{id}")
     public ResponseEntity<?> getUserPost(@PathVariable("id") Long userId) {
         return new ResponseEntity<>(postService.findAllPostByUser(userId), HttpStatus.OK);
     }
 
-    @CrossOrigin
+    @CrossOrigin(origins = "https://hippo-club.herokuapp.com/")
     @GetMapping("/getPost/{id}")
     public ResponseEntity<?> getPost(@PathVariable("id") Long postId) {
         System.out.println(postId);
         return new ResponseEntity<>(postService.findPostById(postId), HttpStatus.OK);
     }
 
-    @CrossOrigin
+    @CrossOrigin(origins = "https://hippo-club.herokuapp.com/")
     @PutMapping("/editPost/{id}")
     public ResponseEntity<?> editPost(@RequestBody PostReq req, @PathVariable("id") Long postId) {
 
@@ -53,7 +53,7 @@ public class PostController {
         return new ResponseEntity<>(ResponseException.jsonResponse("success", "Post updated successfully"), HttpStatus.CREATED);
     }
 
-    @CrossOrigin
+    @CrossOrigin(origins = "https://hippo-club.herokuapp.com/")
     @DeleteMapping("/delete/{postId}")
     public ResponseEntity<?> deletePost(@PathVariable("postId") Long postId) {
 
