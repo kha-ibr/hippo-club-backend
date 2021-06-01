@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/post")
-@CrossOrigin
+@CrossOrigin(origins = "https://backend-hippo-club.herokuapp.com/")
 public class PostController {
 
     private final PostService postService;
