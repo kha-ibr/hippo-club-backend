@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @RequestMapping(value = "/api/auth")
+@CrossOrigin(origins = "https://hippo-club.herokuapp.com/")
 public class AuthController {
 
     private final AuthServise authServise;
 
-    @CrossOrigin(origins = "https://hippo-club.herokuapp.com/")
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterReq req) {
         //Checking for email patterns
@@ -43,7 +43,6 @@ public class AuthController {
         return new ResponseEntity<>(ResponseException.jsonResponseWithUserInfo(user), HttpStatus.CREATED);
     }
 
-    @CrossOrigin(origins = "https://hippo-club.herokuapp.com/")
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginReq req) {
         User user = authServise.findByEmail(req.getEmail());
@@ -56,7 +55,6 @@ public class AuthController {
         return new ResponseEntity<>(ResponseException.jsonResponseWithUserInfo(user), HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "https://hippo-club.herokuapp.com/")
     @PutMapping("/update/{userId}")
     public ResponseEntity<?> updateUser(@RequestBody UpdateUserReq req, @PathVariable("userId") Long userId) {
 
@@ -64,7 +62,6 @@ public class AuthController {
         return new ResponseEntity<>(ResponseException.jsonResponse("success", "Post updated successfully"), HttpStatus.CREATED);
     }
 
-    @CrossOrigin(origins = "https://hippo-club.herokuapp.com/")
     @DeleteMapping("/delete/{userId}")
     public ResponseEntity<?> deleteUser(@PathVariable("userId") Long id) {
 
