@@ -4,6 +4,10 @@ The frontend is made with React, and the source code for it is available here. h
 
 ##### Deployed app Link: https://hippo-club.herokuapp.com/login
 
+### Application Preview
+
+![Application preview](https://media.giphy.com/media/pHp2vxCKFSs4mLcCuZ/giphy.gif)
+
 ### Requirements
 For building and running the application you need:
 Java 11<br/>
@@ -26,9 +30,5 @@ Create a file called `application.properties` inside "src/main/resources/applica
    spring.datasource.driver-class-name=com.mysql.jdbc.Driver
    spring.jpa.show-sql=true
    ```   
-### Application Preview
-
-![Application preview](https://media.giphy.com/media/pHp2vxCKFSs4mLcCuZ/giphy.gif)
-
 ### Frontend code
 The Frontend port was build using React and here is the code for it: https://github.com/hippoClub/hippo-club-frontend
